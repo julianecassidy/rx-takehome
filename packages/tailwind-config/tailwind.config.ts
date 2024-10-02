@@ -9,10 +9,10 @@ const config: Omit<Config, 'content'> = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Zen Loop"', "Arial", "sans-serif"],
+        sans: ['"Gill Sans MT Condensed"', "Arial", "sans-serif"],
         serif: ["Merriweather", "Georgia", "serif"],
-        display: ['"Reenie Beanie"', "cursive"],
-        body: ['Raleway', 'Arial', 'sans-serif'],
+        display: ['"Poiret One"', "cursive"],
+        body: ['Montserrat', 'Arial', 'sans-serif'],
         mono: ["IBM Plex Mono", "monospace"],
       },
     },
@@ -22,28 +22,18 @@ const config: Omit<Config, 'content'> = {
     themes: [
       {
         light: {
-          "primary": "#D81159",
-          "primary-content": "#FBFFFE",
-          "secondary": "#8F2D56",
-          "accent": "#FE9920",
-          "base-200": "#FBFFFE",
-          "base-100": "#160C28",
-          "neutral": "#F0F3F5",
+          "primary": "#457B9D",
+          "primary-400": "#1D3557",
+          "primary-content": "#F1FAEE",
+          "secondary": "#A8DADC",
+          "accent": "#E63946",
+          "base-100": "#F1FAEE",
+          "neutral": "#0D1B2A",
         },
       },
-      {
-        dark: {
-          "primary": "#D81159",
-          "primary-content": "#FBFFFE",
-          "secondary": "#8F2D56",
-          "accent": "#FE9920",
-          "base-200": "#160C28",
-          "base-100": "#FBFFFE",
-          "neutral": "#160C28",
-        },
-      },
-    ], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
-    darkTheme: "dark", // name of one of the included themes for dark mode
+    ],
+    // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
+    // darkTheme: "dark", // name of one of the included themes for dark mode
     base: false, // applies background color and foreground color for root element by default
     styled: true, // include daisyUI colors and design decisions for all components
     utils: true, // adds responsive and modifier utility classes
