@@ -1,8 +1,10 @@
 import { router } from '@api/trpc';
-import { helloRouter } from '@api/router/hello';
+import { userRouter } from '@api/router/user';
+import { medicationRouter } from './medication';
 
 export const appRouter = router({
-  hello: helloRouter,
+  user: userRouter,
+  medication: medicationRouter,
 });
 
 export type AppRouter = typeof appRouter;
