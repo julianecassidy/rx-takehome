@@ -9,6 +9,9 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
+  await prisma.rx.deleteMany();
+  await prisma.medication.deleteMany();
+
   // Upsert users
   const user1 = await prisma.user.upsert({
     where: { email: 'john.doe@example.com' },
