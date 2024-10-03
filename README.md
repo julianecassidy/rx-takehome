@@ -17,7 +17,7 @@ If the database is seeded with the included seed file, you can log in with:
 ### Known Bugs and Features to Be Implemented
 - logout (if you would like to log out currently, you'll need to clear localStorage and refresh)
 - schema updates: Ideally medId and userId on the Rx model will have a unique together constraint and associated error handling.
-- error handling in general: Using the app outside of expected will not go well.
+- error handling in general: Using the app outside of expected actions will not go well. Try a refresh if you get stuck somewhere.
 - password hashing and improved authentication/authorization
 - protecting routes from non-logged-in users
 
@@ -26,6 +26,7 @@ If the database is seeded with the included seed file, you can log in with:
 - TypeScript
 - React
 - Vite
+- Zustand
 - TanStack Router
 - Express.js
 - tRPC
@@ -36,7 +37,7 @@ If the database is seeded with the included seed file, you can log in with:
 
 ### Structure and Organization
 
-- `@repo/web`: Vite, React, TanStack Router, and tRPC Client
+- `@repo/web`: Vite, React, TanStack Router, Zustand, and tRPC Client
 - `@repo/api`: Express.js, Prisma, and tRPC Server
 - `@repo/eslint-config`: `eslint` configurations
 - `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
@@ -69,12 +70,16 @@ cp ./apps/api/.env.example ./apps/api/.env
 ```
 
 ### Database migrations
+Migrate the database to create tables in local db.
+
 ```
 cd apps/api
-pnpm prisma migrate dev
+pnpm prisma migrate dev --name init
 ```
 
 ### Database seeding
+Seed the database with the included seed file to get medications, users, and initial user prescriptions.
+
 ```
 cd apps/api
 pnpm prisma db seed
