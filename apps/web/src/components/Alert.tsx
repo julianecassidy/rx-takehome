@@ -3,7 +3,6 @@ type AlertsProps = {
 }
 
 export default function Alert({ messages}: AlertsProps) {
-    // console.debug("Alert", messages);
 
     return (
         <div
