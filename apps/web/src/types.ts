@@ -13,10 +13,16 @@ export type User = {
   rx: Rx[];
 };
 
+export type UserToken = {
+  id: number;
+  name: string;
+}
+
 export type Rx = {
   id: number;
   userId: number;
   medicationId: number;
   dosage: string | null;
-  notes: string;
+  notes: string | null;
+  medication: Medication;
 }
