@@ -67,7 +67,8 @@ export const userRouter = router({
         select: defaultUserSelect,
       });
 
-      return user;
+      const token = jwt.sign(user, process.env.SECRET_KEY as string, { expiresIn: '1h' });
+      return { token };
     }),
 
   login: publicProcedure
@@ -79,13 +80,13 @@ export const userRouter = router({
         where: {
           email: email,
         },
-      })
+      });
 
-      if(!user) {
-        throw new TRPCError({code: 'UNAUTHORIZED'})
+      if (!user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED' });
       }
 
-      if(user.password === password) {
+      if (user.password === password) {
         const token = jwt.sign(user, process.env.SECRET_KEY as string, { expiresIn: '1h' });
         return { token };
       }
