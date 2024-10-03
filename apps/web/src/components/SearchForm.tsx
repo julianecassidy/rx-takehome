@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 type SearchFormProps = {
     search: (term: string) => void
@@ -16,7 +16,8 @@ export default function SearchForm({ search, currSearch }: SearchFormProps) {
         });
     };
 
-    function handleSearch() {
+    function handleSearch(evt: React.FormEvent) {
+        evt.preventDefault();
         search(formData.search);
     }
 

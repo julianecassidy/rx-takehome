@@ -13,6 +13,7 @@ function Index() {
 
     const [searchTerm, setSearchTerm] = useState("")
 
+
     const medicationsQuery = trpc.medication.list.useQuery({search: searchTerm});
 
     function search(term: string) {

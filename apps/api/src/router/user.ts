@@ -75,7 +75,6 @@ export const userRouter = router({
         const token = jwt.sign(
           { id: user.id, name: user.name },
           process.env.SECRET_KEY as string,
-          { expiresIn: '1h' },
         );
         return { token };
       }),
@@ -99,7 +98,6 @@ export const userRouter = router({
             const token = jwt.sign(
               { id: user.id, name: user.name },
               process.env.SECRET_KEY as string,
-              { expiresIn: '1h' },
             );
             return { token };
           }

@@ -17,12 +17,12 @@ async function main() {
     where: { email: 'john.doe@example.com' },
     update: {
       name: 'John Doe Updated', // Update details (if necessary)
-      password: 'hashedpassword1', // You could also update the password, if needed
+      password: 'password', // You could also update the password, if needed
     },
     create: {
       email: 'john.doe@example.com',
       name: 'John Doe',
-      password: 'hashedpassword1',
+      password: 'password',
     },
   });
 
@@ -30,12 +30,12 @@ async function main() {
     where: { email: 'jane.smith@example.com' },
     update: {
       name: 'Jane Smith Updated',
-      password: 'hashedpassword2',
+      password: 'password',
     },
     create: {
       email: 'jane.smith@example.com',
       name: 'Jane Smith',
-      password: 'hashedpassword2',
+      password: 'password',
     },
   });
 
@@ -43,14 +43,27 @@ async function main() {
     where: { email: 'alex.jones@example.com' },
     update: {
       name: 'Alex Jones Updated',
-      password: 'hashedpassword3',
+      password: 'password',
     },
     create: {
       email: 'alex.jones@example.com',
       name: 'Alex Jones',
-      password: 'hashedpassword3',
+      password: 'password',
     },
   });
+
+    const testUser = await prisma.user.upsert({
+      where: { email: 'test@test.com' },
+      update: {
+        name: 'Test Updated',
+        password: 'password',
+      },
+      create: {
+        email: 'test@test.com',
+        name: 'Test',
+        password: 'password',
+      },
+    });
 
   // Create medications
   const medication1 = await prisma.medication.create({

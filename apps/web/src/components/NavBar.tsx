@@ -1,14 +1,11 @@
 import { Link } from '@tanstack/react-router';
-import { MouseEventHandler, useEffect } from 'react';
 import "./NavBar.css";
-
-// type NavBarProps = {
-//     currentUser: User | null;
-//     logout: MouseEventHandler<HTMLAnchorElement>;
-// };
+import { useUserDataStore } from '@/utils/userStore';
+import type { UserToken } from '@/types';
 
 function NavBar() {
     // console.debug("NavBar");
+    const user = useUserDataStore((state) => state.userData) as UserToken;
 
     return (
         <div id="NavBar drawer">
@@ -26,25 +23,30 @@ function NavBar() {
                     </div>
                     <div className="flex-none hidden lg:block">
                         <nav id="NavBar-menu">
-                            {/* {!currentUser &&
+                            {!user &&
                                 <>
-                                    <Link to="/signup" className={({ isActive }) =>
-                                        isActive ? "active" : ""}>Signup</Link>
-                                    <Link to="/login" className={({ isActive }) =>
-                                        isActive ? "active" : ""}>Login</Link>
+                                    <Link to="/signup" className="[&.active]:font-bold">
+                                        Signup
+                                    </Link>
+                                    <Link to="/login" className="[&.active]:font-bold">
+                                        Login
+                                    </Link>
+
                                 </>}
 
-                            {currentUser &&
+                            {user &&
                                 <>
-                                    <Link to="/login" onClick={logout}>Logout</Link>
+                                    {/* Logout is not currently implemented. Cleare localStorage if you want to leave :`(
+                                     //     <Link to="/login" onClick={logout}>Logout</Link> */}
+
+                                    <Link to="/" className="[&.active]:font-bold">
+                                        Search Medications
+                                    </Link>
+                                    <Link to="/cabinet" className="[&.active]:font-bold">
+                                        My Medicine Cabinet
+                                    </Link>
                                 </>
-                            } */}
-                            <Link to="/" className="[&.active]:font-bold">
-                                Search Medications
-                            </Link>
-                            <Link to="/cabinet" className="[&.active]:font-bold">
-                                My Medicine Cabinet
-                            </Link>
+                            }
                         </nav>
                     </div>
                     <div className="flex-none lg:hidden">
@@ -67,19 +69,20 @@ function NavBar() {
                 <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu pt-28 px-4 w-full min-h-full bg-neutral text-base-100 text-2xl">
                     {/* Sidebar content here */}
-                    {/* {!currentUser &&
+                    {!user &&
                         <>
                             <li><Link to="/signup">Signup</Link></li>
                             <li><Link to="/login">Login</Link></li>
-                        </>} */}
+                        </>}
 
-                    {/* {currentUser && */}
+                    {user &&
                         <>
                             <li><Link to="/" >Medications</Link></li>
                             <li><Link to="/cabinet">My Medicine Cabinet</Link></li>
-                            {/* <li><Link to="/" onClick={logout}>Logout</Link></li> */}
+                            {/* Logout is not currently implemented. Cleare localStorage if you want to leave :`(
+                                <li><Link to="/" onClick={logout}>Logout</Link></li> */}
                         </>
-                    {/* } */}
+                    }
                 </ul>
             </div>
         </div>
