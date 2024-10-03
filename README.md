@@ -14,9 +14,7 @@ If the database is seeded with the included seed file, you can log in with:
  - test@test.com
  - password
 
-### Known Bugs
-
-### Features to Be Implemented
+### Known Bugs and Features to Be Implemented
 - logout (if you would like to log out currently, you'll need to clear localStorage and refresh)
 - schema updates: Ideally medId and userId on the Rx model will have a unique together constraint and associated error handling.
 - error handling in general: Using the app outside of expected will not go well.
