@@ -3,6 +3,8 @@ import { Prisma } from '@prisma/client';
 import { prisma } from '../prismaClient';
 import { publicProcedure, router } from '@api/trpc';
 import { TRPCError } from '@trpc/server';
+import jwt from 'jsonwebtoken';
+import { protectedProcedure } from './middleware';
 
 const defaultUserSelect = {
   id: true,
@@ -27,7 +29,7 @@ export const userRouter = router({
       return users;
     }),
 
-  get: publicProcedure
+  get: protectedProcedure
     .input(
       z.object({
         id: z.number(),
@@ -54,7 +56,7 @@ export const userRouter = router({
   create: publicProcedure
     .input(
       z.object({
-        email: z.string().min(5),
+        email: z.string().email(),
         name: z.string().min(1).max(100),
         password: z.string().min(3),
       }),
@@ -68,7 +70,30 @@ export const userRouter = router({
       return user;
     }),
 
-  prescribe: publicProcedure
+  login: publicProcedure
+    .input(z.object({ email: z.string().email(), password: z.string() }))
+    .mutation(async ({ input }) => {
+      const { email, password } = input;
+
+      const user = await prisma.user.findUnique({
+        where: {
+          email: email,
+        },
+      })
+
+      if(!user) {
+        throw new TRPCError({code: 'UNAUTHORIZED'})
+      }
+
+      if(user.password === password) {
+        const token = jwt.sign(user, process.env.SECRET_KEY as string, { expiresIn: '1h' });
+        return { token };
+      }
+
+      throw new Error('Invalid credentials');
+    }),
+
+  prescribe: protectedProcedure
     .input(
       z.object({
         userId: z.number(),
@@ -86,7 +111,7 @@ export const userRouter = router({
       return rx;
     }),
 
-  updateRx: publicProcedure
+  updateRx: protectedProcedure
     .input(
       z.object({
         id: z.number(),
@@ -106,7 +131,7 @@ export const userRouter = router({
       return rx;
     }),
 
-  unprescribe: publicProcedure
+  unprescribe: protectedProcedure
     .input(
       z.object({
         id: z.number(),
