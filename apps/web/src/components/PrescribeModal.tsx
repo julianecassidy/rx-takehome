@@ -57,13 +57,22 @@ export default function PrescribeModal({ modalShow, onHide, medication }: Prescr
                 <div className="modal-action">
                     <form method="dialog">
                         <label htmlFor="dosage">Dosage:</label>
-                        <input type="text" id="dosage" name="dosage" onChange={handleChange} />
+                        <input
+                            type="text"
+                            id="dosage"
+                            name="dosage"
+                            value={formData.dosage}
+                            onChange={handleChange} />
                         <label htmlFor="notes">Notes:</label>
-                        <textarea id="notes" name="notes" onChange={handleChange}></textarea>
+                        <textarea
+                            id="notes"
+                            name="notes"
+                            value={formData.notes}
+                            onChange={handleChange}></textarea>
                         <button
-                          className="btn"
-                          onClick={() => onHide()}
-                          >Cancel</button>
+                            className="btn"
+                            onClick={() => onHide()}
+                        >Cancel</button>
                         <button
                             className="btn btn-primary"
                             onClick={handleSave}

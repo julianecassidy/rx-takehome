@@ -14,8 +14,6 @@ function Cabinet() {
   const user = useUserDataStore((state) => state.userData) as UserToken;
   const cabinetQuery = trpc.user.get.useQuery({id: user.id});
 
-  console.debug("Cabinet, user", user, cabinetQuery.data);
-
   if (cabinetQuery.isLoading) {
     return <LoadingSpinner />
   }
