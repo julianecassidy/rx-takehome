@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { trpc } from "@/utils/trpc";
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Alert from '@/components/Alert';
 import { TRPCError } from '@trpc/server';
 import { useUserDataStore } from '@/utils/userStore';
@@ -33,8 +33,11 @@ function Login() {
     };
 
     const updateUserStore = useUserDataStore((state) => state.getUserFromToken);
-    const handleLogin = async () => {
+    async function handleLogin(evt: React.FormEvent) {
+        evt.preventDefault();
+
         const { email, password } = formData;
+
         try {
             const response = await loginMutation.mutateAsync({ email, password });
             localStorage.setItem('token', response.token); // Store token in localStorage

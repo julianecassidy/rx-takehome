@@ -38,7 +38,8 @@ function NavBar() {
 
                             {user &&
                                 <>
-                                    {/* TODO: Logout is not currently implemented. Cleare localStorage if you want to leave :`(
+                                    {/* TODO: Logout is not currently implemented.
+                                    Clear localStorage and refresh if you want to leave :`(
                                      //     <Link to="/login" onClick={logout}>Logout</Link> */}
 
                                     <Link to="/" className="[&.active]:font-bold">
@@ -81,7 +82,8 @@ function NavBar() {
                         <>
                             <li><Link to="/" >Medications</Link></li>
                             <li><Link to="/cabinet">My Medicine Cabinet</Link></li>
-                            {/* TODO: Logout is not currently implemented. Cleare localStorage if you want to leave :`(
+                            {/* TODO: Logout is not currently implemented.
+                            Clear localStorage and refresh if you want to leave :`(
                                 <li><Link to="/" onClick={logout}>Logout</Link></li> */}
                         </>
                     }

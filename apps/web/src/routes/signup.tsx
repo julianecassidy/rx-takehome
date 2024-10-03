@@ -34,8 +34,11 @@ function Signup() {
   };
 
   const updateUserStore = useUserDataStore((state) => state.getUserFromToken);
-  const handleSignup = async () => {
+  async function handleSignup(evt: React.FormEvent) {
+    evt.preventDefault();
+
     const { email, password, name } = formData;
+
     try {
       const response = await signupMutation.mutateAsync({ email, password, name });
       localStorage.setItem('token', response.token); // Store token in localStorage
