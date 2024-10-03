@@ -7,8 +7,9 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply flex min-h-[100svh] flex-col bg-base-100 font-body text-base text-neutral
-    mb-4 mx-2 md:mx-8 relative selection:bg-secondary selection:bg-opacity-70;
+    @apply flex min-h-[100svh] flex-col bg-gradient-to-b from-secondary to-primary
+    font-body text-base text-neutral
+    relative selection:bg-secondary selection:bg-opacity-70;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -33,6 +34,10 @@
 
   p {
     @apply mb-2 text-base;
+  }
+
+  hr {
+    @apply w-3/4 mx-auto mt-8 border border-primary;
   }
 
    /* ===== scrollbar ===== */

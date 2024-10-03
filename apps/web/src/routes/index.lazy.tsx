@@ -31,9 +31,13 @@ function Index() {
     return (
         <div>
             <SearchForm search={search} currSearch={searchTerm} />
+            <hr />
+            <div className="mt-8 mb-32 mx-8 lg:mx-32 flex flex-wrap gap-8 justify-center">
             {
                 !medicationsQuery.data?.length
-                    ? <div>There are no medications currently available.</div>
+                    ? <div className="mt-24 text-center text-neutral text-xl">
+                        There are no medications currently available.
+                    </div>
                     : medicationsQuery.data?.map((m) =>
                         <MedicationCard
                             key={m.id}
@@ -41,6 +45,7 @@ function Index() {
                         />
                     )
             }
+            </div>
         </div>
     );
 }

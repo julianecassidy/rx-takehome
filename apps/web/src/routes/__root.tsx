@@ -1,4 +1,5 @@
 import NavBar from '@/components/NavBar';
+import Footer from '@/components/Footer';
 import { createRootRoute, Outlet } from '@tanstack/react-router';
 
 export const Route = createRootRoute({
@@ -6,6 +7,7 @@ export const Route = createRootRoute({
   <>
   <NavBar />
   <Outlet />
+  <Footer />
   </>
   )
 });

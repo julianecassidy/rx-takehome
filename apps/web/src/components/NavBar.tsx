@@ -9,8 +9,10 @@ function NavBar() {
 
     return (
         <div id="NavBar drawer">
+            {/* TODO: nav bar currently does not close after clicking on a link.
+                It is also stuck behind the medication cards. Change the z-index. */}
             <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
-            <div className="drawer-content flex flex-col">
+            <div className="drawer-content flex flex-col mx-8 lg:mx-16">
                 {/* Navbar */}
                 <div className="w-full navbar">
                     <div id="NavBar-logo" className="flex-1">
@@ -36,7 +38,7 @@ function NavBar() {
 
                             {user &&
                                 <>
-                                    {/* Logout is not currently implemented. Cleare localStorage if you want to leave :`(
+                                    {/* TODO: Logout is not currently implemented. Cleare localStorage if you want to leave :`(
                                      //     <Link to="/login" onClick={logout}>Logout</Link> */}
 
                                     <Link to="/" className="[&.active]:font-bold">
@@ -79,7 +81,7 @@ function NavBar() {
                         <>
                             <li><Link to="/" >Medications</Link></li>
                             <li><Link to="/cabinet">My Medicine Cabinet</Link></li>
-                            {/* Logout is not currently implemented. Cleare localStorage if you want to leave :`(
+                            {/* TODO: Logout is not currently implemented. Cleare localStorage if you want to leave :`(
                                 <li><Link to="/" onClick={logout}>Logout</Link></li> */}
                         </>
                     }

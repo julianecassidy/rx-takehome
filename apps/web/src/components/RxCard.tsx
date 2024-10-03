@@ -11,9 +11,9 @@ export default function Rx({ rx }: RxCardProps) {
             <div className="card-body">
                 <h2 className="card-title">{rx.medication.name}</h2>
                 <p>{rx.medication.details}</p>
-                <p>Dosage: {rx.dosage}</p>
-                <p>Notes: {rx.notes}</p>
-                <div className="badge badge-secondary">
+                <p><strong>Dosage:</strong> {rx.dosage}</p>
+                <p><strong>Notes:</strong> {rx.notes}</p>
+                <div className="badge badge-secondary mx-auto p-4">
                     Current Cost: ${rx.medication.cost}
                 </div>
                 <small>Warnings: {rx.medication.warnings}</small>

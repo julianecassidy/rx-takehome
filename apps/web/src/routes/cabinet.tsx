@@ -23,10 +23,12 @@ function Cabinet() {
   }
 
   return (
-    <div>
+    <div className="mt-8 mb-32 mx-8 lg:mx-32 flex flex-wrap gap-8 justify-center">
         {
             !cabinetQuery.data?.rxs.length
-                ? <div>You don't currently have any prescriptions.</div>
+                ? <div className="mt-24 text-center text-neutral text-xl">
+                  You don't currently have any prescriptions.
+                </div>
                 : cabinetQuery.data?.rxs.map((rx) =>
                     <RxCard key={rx.id} rx={rx} />
                 )
