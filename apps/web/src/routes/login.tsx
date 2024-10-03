@@ -33,13 +33,13 @@ function Login() {
         });
     };
 
-    const updateUser = useUserDataStore((state) => state.updateUserData);
+    const updateUserStore = useUserDataStore((state) => state.getUserFromToken);
     const handleLogin = async () => {
         const { email, password } = formData;
         try {
             const response = await loginMutation.mutateAsync({ email, password });
             localStorage.setItem('token', response.token); // Store token in localStorage
-            updateUser(response.token);
+            updateUserStore(response.token);
             navigate({ to: '/cabinet' });
         } catch (error: unknown) {
             if (error instanceof TRPCError) {

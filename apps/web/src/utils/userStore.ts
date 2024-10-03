@@ -1,15 +1,15 @@
-import { User } from '@/types';
+import { UserToken } from '@/types';
 import { create } from 'zustand';
 import decodeToken from '@/utils/decodeJwt';
 
 interface UserDataState {
-  userData: User | null;
-  updateUserData: (token: string) => void;
+  userData: UserToken | null;
+  getUserFromToken: (token: string) => void;
 }
 
 export const useUserDataStore = create<UserDataState>((set) => ({
   userData: null,
-  updateUserData: (token) => set(() => ({
+  getUserFromToken: (token) => set(() => ({
     userData: decodeToken(token)
   })),
 }));

@@ -3,6 +3,7 @@ import { trpc } from "@/utils/trpc";
 import { useState } from 'react';
 import Alert from '@/components/Alert';
 import { TRPCError } from '@trpc/server';
+import { useUserDataStore } from '@/utils/userStore';
 
 export const Route = createFileRoute('/signup')({
   component: Signup,
@@ -32,11 +33,13 @@ function Signup() {
     });
   };
 
+  const updateUserStore = useUserDataStore((state) => state.getUserFromToken);
   const handleSignup = async () => {
     const { email, password, name } = formData;
     try {
       const response = await signupMutation.mutateAsync({ email, password, name });
       localStorage.setItem('token', response.token); // Store token in localStorage
+      updateUserStore(response.token);
       navigate({ to: '/cabinet' });
     } catch (error: unknown) {
       if (error instanceof TRPCError) {
