@@ -52,18 +52,18 @@ async function main() {
     },
   });
 
-    const testUser = await prisma.user.upsert({
-      where: { email: 'test@test.com' },
-      update: {
-        name: 'Test Updated',
-        password: 'password',
-      },
-      create: {
-        email: 'test@test.com',
-        name: 'Test',
-        password: 'password',
-      },
-    });
+  const testUser = await prisma.user.upsert({
+    where: { email: 'test@test.com' },
+    update: {
+      name: 'Test Updated',
+      password: 'password',
+    },
+    create: {
+      email: 'test@test.com',
+      name: 'Test',
+      password: 'password',
+    },
+  });
 
   // Create medications
   const medication1 = await prisma.medication.create({
@@ -92,6 +92,70 @@ async function main() {
       cost: 8.99,
     },
   });
+
+  const medication4 = await prisma.medication.create({
+    data: {
+      name: 'Metformin',
+      details: 'Helps control blood sugar levels in type 2 diabetes',
+      warnings: 'May cause gastrointestinal upset, take with food',
+      cost: 6.49,
+    },
+  });
+
+  const medication5 = await prisma.medication.create({
+    data: {
+      name: 'Atorvastatin',
+      details: 'Used to lower cholesterol and reduce the risk of heart disease',
+      warnings: 'May cause muscle pain, contact doctor if severe',
+      cost: 15.99,
+    },
+  });
+
+  const medication6 = await prisma.medication.create({
+    data: {
+      name: 'Omeprazole',
+      details: 'Reduces stomach acid, used for GERD and ulcers',
+      warnings: 'Long-term use may lead to vitamin deficiencies, consult doctor',
+      cost: 8.49,
+    },
+  });
+
+  const medication7 = await prisma.medication.create({
+    data: {
+      name: 'Levothyroxine',
+      details: 'Used to treat hypothyroidism (underactive thyroid)',
+      warnings: 'Take on an empty stomach, avoid taking close to calcium supplements',
+      cost: 4.99,
+    },
+  });
+
+  const medication8 = await prisma.medication.create({
+    data: {
+      name: 'Amlodipine',
+      details: 'Calcium channel blocker used to treat high blood pressure and angina',
+      warnings: 'May cause swelling in the ankles or feet, contact doctor if bothersome',
+      cost: 7.99,
+    },
+  });
+
+  const medication9 = await prisma.medication.create({
+    data: {
+      name: 'Sertraline',
+      details: 'Used to treat depression, anxiety, and other mood disorders',
+      warnings: 'May cause drowsiness or dizziness, avoid alcohol while taking',
+      cost: 14.99,
+    },
+  });
+
+  const medication10 = await prisma.medication.create({
+    data: {
+      name: 'Cetirizine',
+      details: 'Antihistamine used for allergy relief',
+      warnings: 'May cause drowsiness, use caution when operating machinery',
+      cost: 3.49,
+    },
+  });
+
 
   // Create prescriptions (Rx)
   await prisma.rx.create({
