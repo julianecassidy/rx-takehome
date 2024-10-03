@@ -93,6 +93,8 @@ To run all apps and packages in development mode, run the following command:
 pnpm dev
 ```
 
+The app is configured to run on 3000 for the backend and 5173 for the frontend, unless environmental variables are set.
+
 ### Build
 
 To build all apps and packages, run the following command:
