@@ -1,3 +1,62 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply flex min-h-[100svh] flex-col bg-base-100 font-body text-base text-neutral
+    mb-4 mx-2 md:mx-8 relative selection:bg-secondary selection:bg-opacity-70;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans font-black tracking-wider text-base text-neutral my-2;
+  }
+
+  h1 {
+    @apply text-2xl sm:text-3xl md:text-4xl;
+  }
+
+  h2 {
+    @apply text-3xl;
+  }
+
+  h3 {
+    @apply text-2xl;
+  }
+
+  h4 {
+    @apply text-2xl;
+  }
+
+  p {
+    @apply mb-2 text-base;
+  }
+
+   /* ===== scrollbar ===== */
+   html {
+    overflow-y: scroll;
+  }
+
+  /* width */
+  ::-webkit-scrollbar {
+    @apply w-3;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    @apply bg-secondary bg-opacity-70;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary bg-opacity-70;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary;
+  }
+}
