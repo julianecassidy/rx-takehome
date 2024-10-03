@@ -20,7 +20,7 @@ model Medication {
   name     String   @db.VarChar(200)
   details  String   @default("")
   warnings String   @default("")
-  cost     Decimal?
+  cost     Int?
   rxs      Rx[]
 }
 
