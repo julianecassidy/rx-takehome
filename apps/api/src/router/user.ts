@@ -11,7 +11,11 @@ const defaultUserSelect = {
   id: true,
   email: true,
   name: true,
-  rxs: true,
+  rxs: {
+    include: {
+      medication: true,
+    }
+  },
 } satisfies Prisma.UserSelect;
 
 const defaultRxSelect = {
@@ -44,15 +48,15 @@ export const userRouter = router({
         select: defaultUserSelect,
       });
 
-      if (!user) {
-        throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: `No user with id ${id}`,
-        });
-      }
+  if(!user) {
+    throw new TRPCError({
+      code: 'NOT_FOUND',
+      message: `No user with id ${id}`,
+    });
+  }
 
       return user;
-    }),
+}),
 
   create: publicProcedure
     .input(
@@ -62,123 +66,122 @@ export const userRouter = router({
         password: z.string().min(3),
       }),
     )
-    .mutation(async ({ input }) => {
-      const user = await prisma.user.create({
-        data: input,
-        select: defaultUserSelect,
-      });
+      .mutation(async ({ input }) => {
+        const user = await prisma.user.create({
+          data: input,
+          select: defaultUserSelect,
+        });
 
-      const token = jwt.sign(
-        { id: user.id, name: user.name },
-        process.env.SECRET_KEY as string,
-        { expiresIn: '1h' },
-      );
-      return { token };
-    }),
-
-  login: publicProcedure
-    .input(z.object({ email: z.string().email(), password: z.string() }))
-    .mutation(async ({ input }) => {
-      const { email, password } = input;
-
-      const user = await prisma.user.findUnique({
-        where: {
-          email: email,
-        },
-      });
-
-      if (!user) {
-        throw new TRPCError({ code: 'UNAUTHORIZED' });
-      }
-
-      if (user.password === password) {
         const token = jwt.sign(
           { id: user.id, name: user.name },
           process.env.SECRET_KEY as string,
           { expiresIn: '1h' },
         );
         return { token };
-      }
-
-      throw new Error('Invalid credentials');
-    }),
-
-  getRxs: protectedProcedure
-    .input(z.object({
-      id: z.number(),
-    }),
-    )
-    .query(async ({ input }) => {
-      const { id } = input;
-
-      const rxs = await prisma.user.findUnique({
-        where: { id },
-        select: { id: true, rxs: true },
-      });
-
-      if (!rxs) {
-        throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: `No user with id ${id}`,
-        });
-      }
-
-      return { rxs };
-    }),
-
-
-  prescribe: protectedProcedure
-    .input(
-      z.object({
-        userId: z.number(),
-        medicationId: z.number(),
-        dosage: z.string(),
-        notes: z.string(),
       }),
-    )
-    .mutation(async ({ input }) => {
-      const rx = await prisma.rx.create({
-        data: input,
-        select: defaultRxSelect,
-      });
 
-      return rx;
-    }),
+      login: publicProcedure
+        .input(z.object({ email: z.string().email(), password: z.string() }))
+        .mutation(async ({ input }) => {
+          const { email, password } = input;
 
-  updateRx: protectedProcedure
-    .input(
-      z.object({
-        id: z.number(),
-        dosage: z.string(),
-        notes: z.string(),
-      }),
-    )
-    .mutation(async ({ input }) => {
-      const { id, dosage, notes } = input;
+          const user = await prisma.user.findUnique({
+            where: {
+              email: email,
+            },
+          });
 
-      const rx = await prisma.rx.update({
-        where: { id },
-        data: { dosage, notes },
-        select: defaultRxSelect,
-      });
+          if (!user) {
+            throw new TRPCError({ code: 'UNAUTHORIZED' });
+          }
 
-      return rx;
-    }),
+          if (user.password === password) {
+            const token = jwt.sign(
+              { id: user.id, name: user.name },
+              process.env.SECRET_KEY as string,
+              { expiresIn: '1h' },
+            );
+            return { token };
+          }
 
-  unprescribe: protectedProcedure
-    .input(
-      z.object({
-        id: z.number(),
-      }),
-    )
-    .mutation(async ({ input }) => {
-      const { id } = input;
+          throw new Error('Invalid credentials');
+        }),
 
-      const rx = await prisma.rx.delete({
-        where: { id },
-        select: defaultRxSelect,
-      });
+        getRxs: protectedProcedure
+          .input(z.object({
+            id: z.number(),
+          }),
+          )
+          .query(async ({ input }) => {
+            const { id } = input;
 
-      return rx;
-    }),
+            const rxs = await prisma.user.findUnique({
+              where: { id },
+              select: { id: true, rxs: true },
+            });
+
+            if (!rxs) {
+              throw new TRPCError({
+                code: 'NOT_FOUND',
+                message: `No user with id ${id}`,
+              });
+            }
+
+            return { rxs };
+          }),
+
+          prescribe: protectedProcedure
+            .input(
+              z.object({
+                userId: z.number(),
+                medicationId: z.number(),
+                dosage: z.string(),
+                notes: z.string(),
+              }),
+            )
+            .mutation(async ({ input }) => {
+              const rx = await prisma.rx.create({
+                data: input,
+                select: defaultRxSelect,
+              });
+
+              return rx;
+            }),
+
+            updateRx: protectedProcedure
+              .input(
+                z.object({
+                  id: z.number(),
+                  dosage: z.string(),
+                  notes: z.string(),
+                }),
+              )
+              .mutation(async ({ input }) => {
+                const { id, dosage, notes } = input;
+
+                const rx = await prisma.rx.update({
+                  where: { id },
+                  data: { dosage, notes },
+                  select: defaultRxSelect,
+                });
+
+                return rx;
+              }),
+
+              unprescribe: protectedProcedure
+                .input(
+                  z.object({
+                    id: z.number(),
+                  }),
+                )
+                .mutation(async ({ input }) => {
+                  const { id } = input;
+
+                  const rx = await prisma.rx.delete({
+                    where: { id },
+                    select: defaultRxSelect,
+                  });
+
+                  return rx;
+                }),
 });
