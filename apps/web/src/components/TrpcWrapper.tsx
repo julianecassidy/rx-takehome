@@ -13,6 +13,12 @@ export function TrpcWrapper({ children }: { children: React.ReactNode }) {
         httpBatchLink({
           url: import.meta.env.VITE_API_URL + '/trpc',
           transformer: superjson,
+          headers: () => {
+            const token = localStorage.getItem('token');
+            return {
+              Authorization: token ? `Bearer ${token}` : undefined,
+            };
+          },
         }),
       ],
     })
