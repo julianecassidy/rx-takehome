@@ -3,6 +3,7 @@ import { trpc } from "@/utils/trpc";
 import { useState } from 'react';
 import Alert from '@/components/Alert';
 import { TRPCError } from '@trpc/server';
+import { useUserDataStore } from '@/utils/userStore';
 
 export const Route = createFileRoute('/login')({
     component: Login,
@@ -19,7 +20,8 @@ function Login() {
 
     const loginMutation = trpc.user.login.useMutation();
 
-    const navigate = useNavigate({ from: '/login' })
+
+    const navigate = useNavigate({ from: '/login' });
 
     function handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
         const fieldName = evt.target.name as keyof FormDataState;
@@ -31,15 +33,17 @@ function Login() {
         });
     };
 
+    const updateUser = useUserDataStore((state) => state.updateUserData);
     const handleLogin = async () => {
         const { email, password } = formData;
         try {
             const response = await loginMutation.mutateAsync({ email, password });
             localStorage.setItem('token', response.token); // Store token in localStorage
-            navigate({ to: '/cabinet' })
+            updateUser(response.token);
+            navigate({ to: '/cabinet' });
         } catch (error: unknown) {
             if (error instanceof TRPCError) {
-                setFormErrors([error.message || error.code])
+                setFormErrors([error.message || error.code]);
             }
         }
     };
@@ -48,22 +52,24 @@ function Login() {
         <div>
             <h2>Login</h2>
             <input
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email"
             />
             <input
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Password"
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Password"
             />
             <button onClick={handleLogin}>Login</button>
             {formErrors.length
-                    ? <Alert messages={formErrors} />
-                    : null
-                }
+                ? <Alert messages={formErrors} />
+                : null
+            }
         </div>
     );
 };

@@ -5,3 +5,18 @@ export type Medication = {
   warnings: string;
   cost?: number | null;
 };
+
+export type User = {
+  id: number;
+  email: string;
+  name: string;
+  rx: Rx[];
+};
+
+export type Rx = {
+  id: number;
+  userId: number;
+  medicationId: number;
+  dosage: string | null;
+  notes: string;
+}

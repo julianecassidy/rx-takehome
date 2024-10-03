@@ -18,7 +18,6 @@ function Signup() {
   const [formData, setFormData] = useState<FormDataState>({ email: "", password: "", name: "" });
   const [formErrors, setFormErrors] = useState<string[]>([]);
 
-  console.log(formData.name);
   const signupMutation = trpc.user.create.useMutation();
 
   const navigate = useNavigate({ from: '/signup' });
@@ -26,8 +25,6 @@ function Signup() {
   function handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
     const fieldName = evt.target.name as keyof FormDataState;
     const value = evt.target.value;
-
-    console.log({ fieldName, value });
 
     setFormData((currData: FormDataState) => {
       currData[fieldName] = value;

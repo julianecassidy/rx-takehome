@@ -1,13 +1,13 @@
-import type { Medication } from "@/types";
+import type { Medication, Rx } from "@/types";
 
 type MedicationCardProps = {
-    medication: Medication;
+    medication: Medication | Rx;
 };
 
 export default function MedicationCard({ medication }: MedicationCardProps) {
     return (
         <div>
-            {medication.id} {medication.name}
+            {medication.id}
         </div>
     );
 }
