@@ -1,7 +1,9 @@
 import { trpc } from "@/utils/trpc";
 import MedicationCard from "@/components/MedicationCard";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import SearchForm from "@/components/SearchForm";
 import { createLazyFileRoute } from '@tanstack/react-router';
+import { useState } from "react";
 
 export const Route = createLazyFileRoute('/')({
     component: Index,
@@ -9,7 +11,13 @@ export const Route = createLazyFileRoute('/')({
 
 function Index() {
 
-    const medicationsQuery = trpc.medication.list.useQuery();
+    const [searchTerm, setSearchTerm] = useState("")
+
+    const medicationsQuery = trpc.medication.list.useQuery({search: searchTerm});
+
+    function search(term: string) {
+        setSearchTerm(term);
+    }
 
     if (medicationsQuery.isLoading) {
         return <LoadingSpinner />;
@@ -21,6 +29,7 @@ function Index() {
 
     return (
         <div>
+            <SearchForm search={search} currSearch={searchTerm} />
             {
                 !medicationsQuery.data?.length
                     ? <div>There are no medications currently available.</div>

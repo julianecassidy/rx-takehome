@@ -15,10 +15,29 @@ const defaultMedicationSelect = {
 
 export const medicationRouter = router({
   list: publicProcedure
-    .query(async () => {
-      const medications = await prisma.medication.findMany();
+    .input(
+      z.object({
+        search: z.string(),
+      }),
+    )
+    .query(async ({ input }) => {
+      const { search } = input;
 
-      return medications;
+      if (!search) {
+        const medications = await prisma.medication.findMany();
+        return medications;
+      } else {
+        const medications = await prisma.medication.findMany({
+          where: {
+            name: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+        });
+
+        return medications;
+      }
     }),
 
   get: publicProcedure
