@@ -68,7 +68,11 @@ export const userRouter = router({
         select: defaultUserSelect,
       });
 
-      const token = jwt.sign(user, process.env.SECRET_KEY as string, { expiresIn: '1h' });
+      const token = jwt.sign(
+        { id: user.id, name: user.name },
+        process.env.SECRET_KEY as string,
+        { expiresIn: '1h' },
+      );
       return { token };
     }),
 
@@ -88,12 +92,40 @@ export const userRouter = router({
       }
 
       if (user.password === password) {
-        const token = jwt.sign(user, process.env.SECRET_KEY as string, { expiresIn: '1h' });
+        const token = jwt.sign(
+          { id: user.id, name: user.name },
+          process.env.SECRET_KEY as string,
+          { expiresIn: '1h' },
+        );
         return { token };
       }
 
       throw new Error('Invalid credentials');
     }),
+
+  getRxs: protectedProcedure
+    .input(z.object({
+      id: z.number(),
+    }),
+    )
+    .query(async ({ input }) => {
+      const { id } = input;
+
+      const rxs = await prisma.user.findUnique({
+        where: { id },
+        select: { id: true, rxs: true },
+      });
+
+      if (!rxs) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: `No user with id ${id}`,
+        });
+      }
+
+      return { rxs };
+    }),
+
 
   prescribe: protectedProcedure
     .input(
