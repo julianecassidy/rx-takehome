@@ -1,30 +1,28 @@
-import { createExpressMiddleware } from '@trpc/server/adapters/express';
+import * as trpcExpress from '@trpc/server/adapters/express';
 import cors from 'cors';
 import 'dotenv/config';
 import express from 'express';
-
 import { appRouter } from '@api/router';
+import { createContext } from './router/context';
 
 
 async function main() {
   const port = process.env.PORT || 3000;
-
   const app = express();
 
   app.use(cors());
 
-
   app.use(
     '/trpc',
-    createExpressMiddleware({
+    trpcExpress.createExpressMiddleware({
       router: appRouter,
-      createContext: (ctx) => ({ req: ctx.req, res: ctx.res }),
-      onError:
-        process.env.NODE_ENV === 'development'
-          ? ({ path, error }) => {
-              console.error(`❌ tRPC failed on ${path ?? '<no-path>'}: ${error.message}`);
-            }
-          : undefined,
+      createContext,
+      // onError:
+      //   process.env.NODE_ENV === 'development'
+      //     ? ({ path, error }) => {
+      //       console.error(`❌ tRPC failed on ${path ?? '<no-path>'}: ${error.message}`);
+      //     }
+      //     : undefined,
     })
   );
 

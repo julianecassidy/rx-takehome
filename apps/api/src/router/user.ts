@@ -6,6 +6,7 @@ import { TRPCError } from '@trpc/server';
 import jwt from 'jsonwebtoken';
 import { protectedProcedure } from './middleware';
 
+
 const defaultUserSelect = {
   id: true,
   email: true,
