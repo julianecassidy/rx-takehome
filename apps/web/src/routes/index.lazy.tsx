@@ -8,15 +8,16 @@ export const Route = createLazyFileRoute('/')({
 });
 
 function Index() {
+
     const medicationsQuery = trpc.medication.list.useQuery();
 
     if (medicationsQuery.isLoading) {
-        return <LoadingSpinner />
-      }
+        return <LoadingSpinner />;
+    }
 
-      if (medicationsQuery.isError) {
+    if (medicationsQuery.isError) {
         return <div>Error fetching medications.</div>;
-      }
+    }
 
     return (
         <div>
@@ -24,7 +25,10 @@ function Index() {
                 !medicationsQuery.data?.length
                     ? <div>There are no medications currently available.</div>
                     : medicationsQuery.data?.map((m) =>
-                        <MedicationCard key={m.id} medication={m} />
+                        <MedicationCard
+                            key={m.id}
+                            medication={m}
+                        />
                     )
             }
         </div>

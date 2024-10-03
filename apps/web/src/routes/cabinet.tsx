@@ -1,10 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { trpc } from "@/utils/trpc";
 import { useUserDataStore } from '@/utils/userStore';
-import { useShallow } from 'zustand/shallow';
-import type { User } from '@/types';
+import type { UserToken } from '@/types';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import MedicationCard from '@/components/MedicationCard';
+import RxCard from '@/components/RxCard';
 
 export const Route = createFileRoute('/cabinet')({
   component: Cabinet,
@@ -12,10 +11,10 @@ export const Route = createFileRoute('/cabinet')({
 
 function Cabinet() {
 
-  const user = useUserDataStore(useShallow((state) => state.userData)) as User;
+  const user = useUserDataStore((state) => state.userData) as UserToken;
   const cabinetQuery = trpc.user.get.useQuery({id: user.id});
 
-  // console.debug("Cabinet, user", user, cabinetQuery.data);
+  console.debug("Cabinet, user", user, cabinetQuery.data);
 
   if (cabinetQuery.isLoading) {
     return <LoadingSpinner />
@@ -30,8 +29,8 @@ function Cabinet() {
         {
             !cabinetQuery.data?.rxs.length
                 ? <div>You don't currently have any prescriptions.</div>
-                : cabinetQuery.data?.rxs.map((m) =>
-                    <MedicationCard key={m.id} medication={m} />
+                : cabinetQuery.data?.rxs.map((rx) =>
+                    <RxCard key={rx.id} rx={rx} />
                 )
         }
     </div>
